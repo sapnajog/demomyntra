@@ -6,9 +6,12 @@ import org.testng.ITestResult;
 
 import com.myntra.utils.LoggerUtil;
 import com.myntra.utils.ScreenshotFor;
+
 /**
- * This class contains Listeners which is used to handle test execution events like pass,fail,and skip.
- * Used for logging,reporting,and capturing screenshots on failures.
+ * This class contains Listeners which is used to handle test execution events
+ * like pass,fail,and skip. Used for logging,reporting,and capturing screenshots
+ * on failures.
+ * 
  * @author Sapna Jogdand
  */
 public class MyListeners implements ITestListener {
@@ -24,10 +27,21 @@ public class MyListeners implements ITestListener {
 		log.info("Test passed: " + result.getName());
 	}
 
+	/*
+	 * @Override public void onTestFailure(ITestResult result) {
+	 * log.info("Test failed: " + result.getName());
+	 * ScreenshotFor.takeScreenshot(result.getName()); }
+	 */
+	
 	@Override
 	public void onTestFailure(ITestResult result) {
-		log.info("Test failed: " + result.getName());
-		ScreenshotFor.takeScreenshot(result.getName());
+	    log.info("Test failed: " + result.getName());
+
+	    if (com.myntra.base.Keyword.driver != null) {
+	        ScreenshotFor.takeScreenshot(result.getName());
+	    } else {
+	        log.warn("Driver is null, screenshot skipped");
+	    }
 	}
 
 	@Override
