@@ -24,11 +24,18 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
+        /*stage('Run Tests') {
+            //steps {
                 bat 'mvn test'
             }
-        }
+        }*/
+        
+        
+       /* stage('Run Tests') {
+             steps {
+               bat 'mvn clean test -Dmaven.test.failure.ignore=true'
+             }
+          }
 
         stage('Allure Report') {
             steps {
@@ -37,6 +44,26 @@ pipeline {
                     results: [[path: 'target/allure-results']]
                 ])
             }
+        }*/
+        
+        stage('Run Tests') {
+               steps {
+                  bat 'mvn clean test -Dmaven.test.failure.ignore=true'
+               }
+        post {
+        always {
+            junit '**/target/surefire-reports/*.xml'
+           }
+        }
+   }
+
+        stage('Allure Report') {
+             steps {
+              allure([
+                 reportBuildPolicy: 'ALWAYS',
+                 results: [[path: 'target/allure-results']]
+             ])
+          }
         }
     }
 
