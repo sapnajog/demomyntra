@@ -1,14 +1,19 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'framework-demo')
+    }
+
     tools {
         maven 'Maven'
     }
 
     stages {
+
         stage('Checkout') {
             steps {
-                git branch: 'main',
+                git branch: "${BRANCH_NAME}",
                     url: 'https://github.com/sapnajog/demomyntra.git'
             }
         }
