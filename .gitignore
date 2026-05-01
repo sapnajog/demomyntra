@@ -1,0 +1,51 @@
+# =========================
+# Maven / Build folders
+# =========================
+target/
+*.jar
+*.war
+*.ear
+
+# =========================
+# Logs
+# =========================
+logs/
+*.log
+
+# =========================
+# Test Reports
+# =========================
+test-output/
+surefire-reports/
+emailable-report.html
+allure-results/
+allure-report/
+cucumber-report.html
+cucumber.json
+
+# =========================
+# IDE files
+# =========================
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Java compiled files (extra safety)
+# =========================
+*.class
+
+# =========================
+# Temporary / backup files
+# =========================
+*.bak
+*.tmp
