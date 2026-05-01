@@ -5,14 +5,11 @@ import static com.myntra.base.Keyword.driver;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import com.myntra.base.Keyword;
 import com.myntra.utils.LoggerUtil;
 import com.myntra.utils.WaitFor;
 
@@ -58,8 +55,14 @@ public class HomePage {
 	@FindBy(xpath = "//li[@class=\"breadcrumbs-item\"][3]")
 	WebElement runners;
 
+	By resultsHeader = By.xpath("//h1[contains(@class,'title-title')]");
+
 	public HomePage() {
 		PageFactory.initElements(driver, this);
+	}
+
+	public boolean isHomePage() {
+		return driver.findElements(By.xpath("//input[@placeholder='Search for products, brands and more']")).size() > 0;
 	}
 
 	public void clickOnLogo() {
@@ -67,6 +70,8 @@ public class HomePage {
 	}
 
 	public void searchProduct(String product) {
+		WaitFor.elementToBeVisible(searchBox);
+		searchBox.clear();
 		searchBox.sendKeys(product);
 		searchIcon.click();
 	}
@@ -81,12 +86,20 @@ public class HomePage {
 	}
 
 	public void waitForSearchResults() {
-		WaitFor.elementToBeVisible(searchBox);
+
+		By productList = By.xpath("//li[contains(@class,'product-base')]");
+
+		WaitFor.presenceOfElementLocated(productList);
+
+		int count = driver.findElements(productList).size();
+
+		System.out.println("Products loaded: " + count);
 	}
 
 	public void handlePopupIfPresent() {
 		try {
-			WebElement closeBtn = driver.findElement(By.xpath("//span[@class='myntraweb-sprite desktop-iconClose sprites-remove']"));
+			WebElement closeBtn = driver
+					.findElement(By.xpath("//span[@class='myntraweb-sprite desktop-iconClose sprites-remove']"));
 			if (closeBtn.isDisplayed()) {
 				closeBtn.click();
 			}

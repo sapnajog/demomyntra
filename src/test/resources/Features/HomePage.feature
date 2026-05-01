@@ -24,3 +24,40 @@ Feature: Myntra Home Page Validation
     When User clicks on Myntra logo
     And User searches for "BedSheets"
     Then Search result should contain "bedsheets"
+
+  Scenario: Verify search box is visible on home page
+    Then Search box should be visible
+
+  Scenario: Verify home menu is visible
+    Then Home menu should be visible
+
+  Scenario: Verify search for Curtains
+    When User searches for "Curtains"
+    Then Search results should be displayed
+
+  Scenario: Verify search for Cushions
+    When User searches for "Cushions"
+    Then Search results should be displayed
+
+  Scenario: Verify search for Bed Runners
+    When User searches for "Bed Runners"
+    Then Search results should be displayed
+
+  Scenario: Verify search for Bedsheets
+    When User searches for "Bedsheets"
+    Then Search results should be displayed
+
+  Scenario: Verify search for Home Decor
+    When User searches for "Home Decor"
+    Then Search results should be displayed
+
+  Scenario: Verify search result header for Bedsheets
+    When User searches for "Bedsheets"
+    Then Search result should contain "bedsheets"
+
+  Scenario: Verify search result header for Curtains
+    When User searches for "Curtains"
+    Then Search result should contain "curtains"
+
+  Scenario: Verify home page title is correct
+    Then Page title should contain "Myntra"

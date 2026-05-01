@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Myntra Test Suite" parallel="tests">
+	<listeners>
+		<listener class-name="com.myntra.listeners.MyListeners" />
+	</listeners>
+	<test name="Home Page Tests">
+		<classes>
+			<class name="org.myntra.home_menu.HomePageTest" />
+		</classes>
+	</test>
+	<test name="ProductListingPageTest">
+		<classes>
+			<class name="org.myntra.home_menu.ProductListingPageTest" />
+		</classes>
+	</test>
+	<test name="ProductDetailsPageTest">
+		<classes>
+			<class name="org.myntra.home_menu.ProductDetailsPageTest" />
+		</classes>
+	</test>
+
+	<test name="CartPageTest">
+		<classes>
+			<class name="org.myntra.home_menu.CartPageTest" />
+		</classes>
+	</test>
+	<test name="PlaceOrderPageTest">
+		<classes>
+			<class name="org.myntra.home_menu.PlaceOrderPageTest" />
+		</classes>
+	</test>
+</suite>

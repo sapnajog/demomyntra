@@ -3,9 +3,6 @@ package org.myntra.home_menu;
 import java.util.List;
 
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -16,7 +13,6 @@ import com.myntra.homemenupages.HomePage;
 import com.myntra.homemenupages.ProductFilterPage;
 import com.myntra.listeners.MyListeners;
 import com.myntra.utils.LoggerUtil;
-import com.myntra.utils.WaitFor;
 
 @Listeners(MyListeners.class)
 public class ProductFilterPageTest extends TestBase {
@@ -104,5 +100,4 @@ public class ProductFilterPageTest extends TestBase {
 		Assert.assertTrue(isColorFilterApplied, "Color filter not applied: " + colorName);
 
 	}
-
 }

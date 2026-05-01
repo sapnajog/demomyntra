@@ -2,7 +2,7 @@ Feature: Product Listing Page Validation
 
   Background:
     Given User is on Myntra ProductListingPage Home Page
-
+  
   Scenario: Verify product listing end to end flow
     When User hovers on Home menu
     And User clicks on Bed Runners category

@@ -10,9 +10,11 @@ import com.myntra.utils.LoggerUtil;
 import static com.myntra.base.Keyword.*;
 
 public class TestBase {
-	private static final Logger log = (Logger) LoggerUtil.getLogger(TestBase.class);
-
 	/*
+	 * private static final Logger log = (Logger)
+	 * LoggerUtil.getLogger(TestBase.class);
+	 * 
+	 * 
 	 * @BeforeMethod public void setUp() throws Exception {
 	 * openBrowser(App.getBrowserName()); launchUrl(App.getAppUrl("qa"));
 	 * log.info("Url is launched.....!");
@@ -22,5 +24,4 @@ public class TestBase {
 	 * @AfterMethod public void tearDown() throws Exception { quitBrowser();
 	 * log.info("Driver is quit successfully......!"); }
 	 */
-
 }

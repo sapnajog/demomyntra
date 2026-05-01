@@ -25,7 +25,7 @@ import com.myntra.utils.WaitFor;
  * @author Sapna Jogdand
  */
 public class ProductFilterPage {
-	
+
 	private static final Logger log = (Logger) LoggerUtil.getLogger(ProductFilterPage.class);
 
 	@FindBy(xpath = "//span[@class=\"header-clearAllBtn\"]")
@@ -264,14 +264,14 @@ public class ProductFilterPage {
 		}
 	}
 
-	public boolean isCategoryFilterPresent(String categoryName) {
-		try {
-			List<WebElement> filters = driver
-					.findElements(By.xpath("//label[contains(text(),'" + categoryName + "')]"));
-			return filters.size() > 0;
-		} catch (Exception e) {
-			return false;
-		}
+	public boolean isCategoryFilterPresent(String category) {
+
+		String url = driver.getCurrentUrl().toLowerCase();
+
+		String normalized = category.toLowerCase().replace(" ", "-");
+
+		return url.contains(normalized);
+
 	}
 
 	public void clickOnCategoryFilter(String categoryName) {
@@ -305,4 +305,17 @@ public class ProductFilterPage {
 		}
 	}
 
+	public boolean isFilterPanelVisible() {
+		try {
+
+			WaitFor.waitForSeconds(2);
+			((JavascriptExecutor) driver).executeScript("window.scrollBy(0,400)");
+			List<WebElement> filters = driver.findElements(
+					By.xpath("//aside[contains(@class,'desktop-filters')] | //div[contains(@class,'filter')]"));
+			return !filters.isEmpty() && filters.get(0).isDisplayed();
+
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

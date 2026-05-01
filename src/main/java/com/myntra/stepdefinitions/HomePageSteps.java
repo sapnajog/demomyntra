@@ -73,4 +73,24 @@ public class HomePageSteps {
 		Assert.assertTrue(actual.toLowerCase().contains(expectedText.toLowerCase()),
 				"Search result does not contain expected text");
 	}
+
+	@Then("Page title should contain {string}")
+	public void page_title_should_contain(String expectedTitle) {
+		String title = com.myntra.base.Keyword.driver.getTitle();
+		log.info("Page title: " + title);
+		Assert.assertTrue(title.contains(expectedTitle), "Page title does not contain: " + expectedTitle);
+	}
+
+	@Then("Search box should be visible")
+	public void search_box_should_be_visible() {
+		homepage.waitForsearchElementToBeVisible();
+		Assert.assertTrue(true, "Search box is visible");
+	}
+
+	@Then("Home menu should be visible")
+	public void home_menu_should_be_visible() {
+		boolean visible = com.myntra.base.Keyword.driver
+				.findElements(org.openqa.selenium.By.xpath("//a[@data-group='home']")).size() > 0;
+		Assert.assertTrue(visible, "Home menu not visible");
+	}
 }

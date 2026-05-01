@@ -12,6 +12,7 @@ import com.myntra.utils.LoggerUtil;
 
 import static com.myntra.base.Keyword.driver;
 
+import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 
 public class ProductListingPageSteps {
@@ -24,6 +25,15 @@ public class ProductListingPageSteps {
 
 	String plpUrl;
 	String pdpUrl;
+
+	@Before
+	public void initPages() {
+		homepage = new HomePage();
+		plp = new ProductListingPage();
+		pdp = new ProductDetailsPage();
+		cart = new CartPage();
+		placeOrder = new PlaceOrderPage();
+	}
 
 	@Given("User is on Myntra ProductListingPage Home Page")
 	public void user_is_on_home_page() {
@@ -86,5 +96,30 @@ public class ProductListingPageSteps {
 		Assert.assertTrue(pdp.isproductPriceDisplyed());
 	}
 
+	@When("User adds product to bag")
+	public void add_product_to_bag() {
+		cart = new CartPage();
+		cart.clickOnAddToBagButton();
+	}
 
+	@When("User navigates to cart")
+	public void go_to_cart() {
+		cart.clickOnBagIcon();
+	}
+
+	@Then("Product should be added to bag")
+	public void verify_product_added() {
+		Assert.assertTrue(cart.verifyProductAddedToBag1());
+	}
+
+	@When("User clicks on Place Order")
+	public void click_place_order() {
+		placeOrder = new PlaceOrderPage();
+		placeOrder.clickOnPlaceOrderButton();
+	}
+
+	@Then("Login page should be displayed")
+	public void verify_login_page() {
+		Assert.assertTrue(placeOrder.verifyLoginPageDisplayed());
+	}
 }

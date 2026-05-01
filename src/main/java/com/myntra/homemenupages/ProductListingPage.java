@@ -23,7 +23,7 @@ import com.myntra.utils.WaitFor;
  * @author Sapna Jogdand
  */
 public class ProductListingPage {
-	
+
 	private static final Logger log = (Logger) LoggerUtil.getLogger(ProductListingPage.class);
 
 	@FindBy(xpath = "//li[contains(@class,'product-base')]")
@@ -45,20 +45,20 @@ public class ProductListingPage {
 		PageFactory.initElements(driver, this);
 
 	}
-	
+
 	public int getTotalProductCount() {
-	    By productLocator = By.xpath("//li[contains(@class,'product-base')]");
+		By productLocator = By.xpath("//li[contains(@class,'product-base')]");
 
-	    WaitFor.presenceOfElementLocated(productLocator);
+		WaitFor.presenceOfElementLocated(productLocator);
 
-	    List<WebElement> list = driver.findElements(productLocator);
+		List<WebElement> list = driver.findElements(productLocator);
 
-	    int size = list.size();
-	    log.info("Total Products: " + size);
+		int size = list.size();
+		log.info("Total Products: " + size);
 
-	    return size;
+		return size;
 	}
-	
+
 	public boolean verifyProductImages() {
 		for (WebElement img : productImages) {
 			String src = img.getAttribute("src");

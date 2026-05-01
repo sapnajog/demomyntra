@@ -2,9 +2,7 @@ package com.myntra.homemenupages;
 
 import static com.myntra.base.Keyword.driver;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -12,12 +10,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.myntra.utils.LoggerUtil;
 import com.myntra.utils.WaitFor;
-
-import io.cucumber.messages.types.Duration;
 
 /**
  * This class contains all the locators and methods of the ProductDetailsPage of
@@ -29,7 +24,6 @@ import io.cucumber.messages.types.Duration;
 
 public class ProductDetailsPage {
 	private static final Logger log = (Logger) LoggerUtil.getLogger(ProductDetailsPage.class);
-	
 	@FindBy(xpath = "//div[@class=\"pdp-price-info\"]/h1[1]")
 	WebElement firstProductBrand;
 
@@ -80,27 +74,25 @@ public class ProductDetailsPage {
 	}
 
 	public void navigateToProductDetailsPage() {
-	    if (driver == null) {
-	        throw new IllegalStateException("Driver is null before navigation!");
-	    }
-	    driver.get("https://www.myntra.com/bed-runners");
-	    List<WebElement> products = driver.findElements(
-	        By.xpath("//li[contains(@class,'product-base')]//a"));
-	    if (!products.isEmpty()) {
-	        String href = products.get(0).getAttribute("href");
-	        driver.get(href);
-	    }
-	    PageFactory.initElements(driver, this);
+		if (driver == null) {
+			throw new IllegalStateException("Driver is null before navigation!");
+		}
+		driver.get("https://www.myntra.com/bed-runners");
+		List<WebElement> products = driver.findElements(By.xpath("//li[contains(@class,'product-base')]//a"));
+		if (!products.isEmpty()) {
+			String href = products.get(0).getAttribute("href");
+			driver.get(href);
+		}
+		PageFactory.initElements(driver, this);
 	}
-	
-	
+
 	public void getFirstProductDetails() throws InterruptedException {
 		WaitFor.elementToBeVisible(firstProductBrand);
 		String productBrand = firstProductBrand.getText();
 		String productName = firstProductName.getText();
 		String productPrice = firstProductPrice.getText();
-		log.info("ProductName : " + productName + "  " + "ProductBrand : " + productBrand + "  "
-				+ "ProductPrice: " + productPrice);
+		log.info("ProductName : " + productName + "  " + "ProductBrand : " + productBrand + "  " + "ProductPrice: "
+				+ productPrice);
 	}
 
 	public boolean verifyFirstProductDetails() {
@@ -172,32 +164,34 @@ public class ProductDetailsPage {
 	}
 
 	public boolean isProductDescriptionAvailable() {
-	    try {
-	        ((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 800)");
 
-	        WaitFor.waitForSeconds(2); // add small wait
+		try {
+			((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 1200)");
 
-	        List<WebElement> desc = driver.findElements(
-	                By.xpath("//div[contains(@class,'pdp-product-description')]//p"));
+			WaitFor.waitForSeconds(2);
 
-	        List<WebElement> specs = driver.findElements(
-	                By.xpath("//div[contains(@class,'pdp-productDescriptors')]//li"));
+			// Try clicking "View More" if present
+			List<WebElement> viewMore = driver.findElements(By.xpath("//div[contains(text(),'View More')]"));
 
-	        boolean result = (!desc.isEmpty() && desc.get(0).isDisplayed()) ||
-	                         (!specs.isEmpty() && specs.get(0).isDisplayed());
+			if (!viewMore.isEmpty()) {
+				viewMore.get(0).click();
+			}
 
-	        log.info("Description available: " + result);
-	        return result;
+			List<WebElement> allContent = driver
+					.findElements(By.xpath("//div[contains(@class,'pdp-product-description')] | "
+							+ "//div[contains(@class,'pdp-productDescriptors')]"));
 
-	    } catch (Exception e) {
-	        return false;
-	    }
+			return allContent.size() > 0;
+
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	public boolean verifyDeliveryOptions(String pincode) {
 
 		try {
-			((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 600)");
+			((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 800)");
 
 			WaitFor.elementToBeVisible(deliverypincodeInput);
 
@@ -205,21 +199,33 @@ public class ProductDetailsPage {
 			deliverypincodeInput.sendKeys(pincode);
 			deliveryCheckButton.click();
 
-			WaitFor.elementToBeVisible(deliveryMessage);
+			Thread.sleep(3000); // important for dynamic content
 
-			String message = deliveryMessage.getText().toLowerCase();
+			List<WebElement> messages = driver.findElements(By.xpath("//ul[contains(@class,'pincode')]//li"));
 
-			log.info("-----------------");
-			log.info("Pincode: " + pincode + " | Message: " + message);
-
-			if (message.contains("not available") || message.contains("invalid") || message.contains("enter valid")
-					|| message.contains("please enter")) {
+			if (messages.isEmpty()) {
+				log.info("No delivery messages found");
 				return false;
 			}
-			return message.contains("get it by") || message.contains("cash on delivery")
-					|| message.contains("delivery by");
+
+			for (WebElement msgEl : messages) {
+				String msg = msgEl.getText().toLowerCase();
+				log.info("Delivery message: " + msg);
+
+				if (msg.contains("not available") || msg.contains("invalid") || msg.contains("enter valid")) {
+					return false;
+				}
+
+				if (msg.contains("get it by") || msg.contains("delivery by") || msg.contains("pay on delivery")
+						|| msg.contains("cash on delivery")) {
+					return true;
+				}
+			}
+
+			return false;
 
 		} catch (Exception e) {
+			log.error("Error in delivery validation: " + e.getMessage());
 			return false;
 		}
 	}

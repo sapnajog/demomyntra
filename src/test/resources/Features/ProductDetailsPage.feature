@@ -54,3 +54,27 @@ Feature: Product Details Page Validation As a user I want to view product detail
   @negative
   Scenario: Verify product description availability
     Then Product description or specifications should be available
+    
+  Scenario: Verify product title is displayed on PDP
+    Then Product title should be displayed
+
+  Scenario: Verify size options are available on PDP
+    Then Size options should be available
+
+  Scenario: Verify delivery validation for valid Nashik pincode
+    When User enters pincode "422001"
+    Then Delivery validation should be "valid"
+   
+  @Ignore 
+  Scenario: Verify delivery validation for valid Delhi pincode
+    When User enters pincode "110001"
+    Then Delivery validation should be "valid"
+
+  Scenario: Verify delivery validation for valid Bangalore pincode
+    When User enters pincode "560001"
+    Then Delivery validation should be "valid"
+
+  Scenario: Verify delivery validation for valid Hyderabad pincode
+    When User enters pincode "500001"
+    Then Delivery validation should be "valid"
+  

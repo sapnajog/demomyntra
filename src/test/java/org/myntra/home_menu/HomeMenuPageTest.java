@@ -17,11 +17,11 @@ import com.myntra.homemenupages.ProductFilterPage;
 import com.myntra.homemenupages.ProductListingPage;
 import com.myntra.listeners.MyListeners;
 import com.myntra.utils.LoggerUtil;
-import com.myntra.utils.ScreenshotFor;
 
 @Listeners(MyListeners.class)
 public class HomeMenuPageTest extends TestBase {
 	private static final Logger log = (Logger) LoggerUtil.getLogger(HomeMenuPageTest.class);
+
 	@Test
 	public void verifyHomeMenuPageElements() throws InterruptedException {
 		HomePage homepage = new HomePage();

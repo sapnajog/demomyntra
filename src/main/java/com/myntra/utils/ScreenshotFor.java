@@ -11,6 +11,7 @@ import org.openqa.selenium.OutputType;
 
 public class ScreenshotFor {
 	private static final Logger log = (Logger) LoggerUtil.getLogger(ScreenshotFor.class);
+
 	public static void takeScreenshot(String testName) {
 		File src = driver.getScreenshotAs(OutputType.FILE);
 		File dest = new File("screenshots/" + testName + ".png");

@@ -23,7 +23,6 @@ import com.myntra.utils.WaitFor;
 public class CartPage {
 	private static final Logger log = (Logger) LoggerUtil.getLogger(CartPage.class);
 
-
 	@FindBy(xpath = "//div[text()='ADD TO BAG']")
 	WebElement addToBagButton;
 
@@ -41,6 +40,14 @@ public class CartPage {
 
 	@FindBy(xpath = "//div[contains(@class,'cart-product')]")
 	List<WebElement> productlist;
+
+	By removeBtn = By.xpath("//button[contains(text(),'REMOVE')][1]");
+
+	By confirmRemoveBtn = By.xpath("//button[contains(text(),'REMOVE')]");
+
+	By emptyCartMsg = By.xpath("//div[contains(text(),'empty')]");
+
+	By popup = By.xpath("//div[@role='dialog']");
 
 	{
 		PageFactory.initElements(driver, this);
@@ -85,7 +92,7 @@ public class CartPage {
 
 		try {
 			addToBagButton.click();
-			log.info("Clicked on ADD TO BAG");		
+			log.info("Clicked on ADD TO BAG");
 			WaitFor.elementToBeVisible(goToBagButton);
 			log.info("Product added to cart successfully");
 
@@ -115,5 +122,19 @@ public class CartPage {
 
 	public boolean isProductDisplayed() {
 		return kuberIndustriesBrand.isDisplayed();
+	}
+
+	public void clickRemoveButton() {
+		WaitFor.elementToBeClickableOn(removeBtn).click();
+
+	}
+
+	public void confirmRemove() {
+		WaitFor.elementToBeVisible(popup);
+		WaitFor.elementToBeClickableOn(confirmRemoveBtn).click();
+	}
+
+	public boolean isItemRemoved() {
+		return WaitFor.elementToBeVisibleOrInvisible(emptyCartMsg);
 	}
 }

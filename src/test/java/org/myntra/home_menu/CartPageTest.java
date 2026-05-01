@@ -14,7 +14,7 @@ import com.myntra.homemenupages.ProductListingPage;
  */
 public class CartPageTest extends TestBase {
 	@Test
-	public  void verifyCartPage() {
+	public void verifyCartPage() {
 		HomePage homepage = new HomePage();
 		homepage.hoverOnHomeMenu();
 		homepage.clickOnBedRunners();
@@ -26,16 +26,31 @@ public class CartPageTest extends TestBase {
 		boolean status = cart.verifyProductAddedToBag1();
 		Assert.assertTrue(status, "Product is not added to bag");
 	}
-	
-	@Test(description = "Verify product is added to cart")
-    public void verifyProductAddedToCart() {
-		ProductDetailsPage pdp = new ProductDetailsPage();
-        pdp.navigateToProductDetailsPage();
-        CartPage cart = new CartPage();
-        cart.addProductToCart();
-        cart.openCart();
-        Assert.assertTrue(cart.isProductDisplayed(), "Product is not visible in cart");
-    }
 
+	@Test(description = "Verify product is added to cart")
+	public void verifyProductAddedToCart() {
+		ProductDetailsPage pdp = new ProductDetailsPage();
+		pdp.navigateToProductDetailsPage();
+		CartPage cart = new CartPage();
+		cart.addProductToCart();
+		cart.openCart();
+		Assert.assertTrue(cart.isProductDisplayed(), "Product is not visible in cart");
+	}
+
+	@Test(description = "Product should be removed from the cart after click on remove button")
+	public void verifyProductRemovedFromCart() {
+		HomePage homepage = new HomePage();
+		homepage.hoverOnHomeMenu();
+		homepage.clickOnBedRunners();
+		ProductListingPage plp = new ProductListingPage();
+		plp.clickOnFirstProductImage();
+		CartPage cart = new CartPage();
+		cart.addProductToCart();
+		cart.openCart();
+		cart.clickRemoveButton();
+		cart.confirmRemove();
+		Assert.assertTrue(cart.isItemRemoved(), "Item is not removed from cart");
+
+	}
 
 }

@@ -127,5 +127,4 @@ public class ProductDetailsPageTest extends TestBase {
 		Assert.assertTrue(pdp.isProductDescriptionAvailable(),
 				"Neither description nor product details are available on PDP");
 	}
-
 }
